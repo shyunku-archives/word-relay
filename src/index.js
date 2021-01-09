@@ -1,13 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
+import PageRouter from './PageRouter';
+import {Helmet} from 'react-helmet';
+
+import './init.scss';
+import './index.scss';
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <>
+    <Helmet>
+      <title>끝말이끼</title>
+    </Helmet>
+    <PageRouter/>
+  </>,
   document.getElementById('root')
 );
 
