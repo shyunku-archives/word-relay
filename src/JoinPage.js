@@ -24,7 +24,7 @@ class JoinPage extends Component{
                 let res = response.data;
                 if(res.success){
                     let myCode = res.data.player_code;
-                    let roomcode = res.data.room_code;
+                    let roomCode = res.data.room_code;
                     this.props.history.push(`/room/${myCode}/${roomCode}`);
                 }else{
                     console.log(res.msg);
