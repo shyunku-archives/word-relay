@@ -10,18 +10,47 @@ html, body, #root{
     display: flex;
     width: 100%;
     height: 100%;
-    background-color: rgb(19, 19, 19);
+    background-color: rgb(24, 24, 24);
+}
+
+::-webkit-scrollbar{
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    background: linear-gradient(to bottom, rgb(116, 47, 255), rgb(24, 97, 255));
+    border-radius: 3px;
 }
 
 #join_page{
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+
+    .header{
+        margin: 20px 0;
+
+        input{
+            width: 440px;
+            background: black;
+            padding: 15px;
+            color: white;
+            font-size: 1em;
+            font-weight: bold;
+
+            &:focus{
+                font-size: 1.3em;
+                box-shadow: 0 0 5px 3px rgb(0, 255, 0);
+            }
+        }
+    }
 
     .centered{
         display: flex;
         flex-direction: column;
         padding: 20px 30px;
         background-color: rgb(0, 0, 0);
+        margin: 20px 0;
 
         &>*{
             margin: 10px 0;
@@ -54,6 +83,244 @@ html, body, #root{
             &:hover{
                 background: rgb(0, 102, 17);
                 color: white;
+            }
+        }
+    }
+}
+
+#room_page{
+    flex-direction: column;
+
+    .top-head{
+        width: 100%;
+        padding: 10px;
+        box-sizing: border-box;
+        background: rgb(39, 39, 39);
+    }
+
+    .main-content{
+        display: flex;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+
+        .participant-list{
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-width: 250px;
+            background: rgb(0, 27, 53);
+
+            .playing-list-wrapper{
+                display: flex;
+                flex-direction: column;
+
+                .stat{
+                    padding: 10px 5px;
+                    background-color: rgb(0, 0, 0);
+                }
+
+                .playing-list{
+                    display: flex;
+                    flex-direction: column;
+
+                    .player-item{
+                        display: flex;
+                        justify-content: space-between;
+                        background: linear-gradient(to right, rgb(0, 255, 21), rgb(0, 48, 2));
+                        padding: 5px 10px;
+                        margin: 3px;
+                        border-radius: 5px;
+
+                        .nickname{
+                            color: black;
+                        }
+
+                        .score{
+                            color: white;
+                            font-weight: bold;
+                            text-shadow: 0 0 5px cyan;
+                        }
+                    }
+                }
+            }
+
+            .watching-list-wrapper{
+                display: flex;
+                flex-direction: column;
+
+                .stat{
+                    padding: 10px 5px;
+                    background-color: rgb(0, 0, 0);
+                }
+
+                .watching-list{
+                    display: flex;
+                    flex-direction: column;
+
+                    .player-item{
+                        display: flex;
+                        justify-content: space-between;
+                        background: linear-gradient(to right, rgb(184, 184, 184), rgb(31, 31, 31));
+                        padding: 5px 10px;
+                        margin: 3px;
+                        border-radius: 5px;
+
+                        .nickname{
+                            color: black;
+                        }
+
+                        .score{
+                            color: white;
+                            font-weight: bold;
+                            text-shadow: 0 0 5px cyan;
+                        }
+                    }
+                }
+            }
+        }
+
+        .game-content{
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            justify-content: space-between;
+
+            .announce{
+                display: flex;
+                align-items: flex-end;
+                margin-top: -20px;
+                padding: 10px;
+                box-sizing: border-box;
+
+                .target-letter{
+                    font-size: 3em;
+                    text-shadow: 0 0 10px rgb(0, 255, 13);
+                }
+            }
+
+            .main{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                flex: 1;
+
+                .type-log-wrapper{
+                    position: relative;
+                    min-height: 300px;
+                    width: 100%;
+
+                    .type-log{
+                        display: flex;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        bottom: 0;
+                        right: calc(50% - 105px);
+                        overflow-x: scroll;
+                        padding: 10px 20px;
+                        box-sizing: border-box;
+                        justify-content: flex-end;
+    
+                        .word-item{
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            align-items: center;
+                            padding: 30px;
+                            min-width: 150px;
+                            height: 150px;
+                            background-color: rgb(187, 97, 0);
+                            margin-left: 20px;
+                            border-radius: 50%;
+    
+                            .word{
+                                font-size: 2em;
+                                font-weight: bold;
+                            }
+    
+                            .meaning{
+                                font-size: 0.7em;
+                            }
+                        }
+                    }
+                }               
+            }
+
+            .chat{
+                display: flex;
+                flex-direction: column;
+
+                .chat-log{
+                    height: 300px;
+                    background-color: rgb(0, 0, 0);
+                    border-bottom: 1px solid white;
+                    padding: 10px 15px;
+                    overflow-x: hidden;
+                    overflow-y: scroll;
+
+                    .chat-log-item{
+                        display: flex;
+                        flex-direction: column;
+                        width: 100%;
+                        margin-bottom: 8px;
+
+                        .sender{
+                            font-size: 0.5em;
+                            color: gray;
+                            margin-bottom: 3px;
+                        }
+
+                        .lower{
+                            display: flex;
+                            width: 100%;
+                            align-items: flex-end;
+                            
+                            .content{
+                                color: black;
+                                background: linear-gradient(35deg, cyan, rgb(102, 255, 0));
+                                border-radius: 5px;
+                                padding: 5px 8px;
+                                font-size: 0.7em;
+                            }
+
+                            .time{
+                                font-size: 0.5em;
+                                margin: 0 5px;
+                                color: gray;
+                            }
+                        }
+
+                        &.mine {
+                            align-items: flex-end;
+
+                            .lower{
+                                flex-direction: row-reverse;
+
+                                .content{
+                                    background: linear-gradient(35deg, rgb(0, 217, 255), rgb(255, 15, 250));
+                                }
+                            } 
+                        }
+                    }
+                }
+
+                .chat-inputter{
+                    input{
+                        width: 100%;
+                        box-sizing: border-box;
+                        background: black;
+                        color: white;
+                        padding: 10px 15px;
+                        font-size: 0.9em;
+
+                        &:focus{
+                            font-size: 1.3em;
+                        }
+                    }
+                }
             }
         }
     }

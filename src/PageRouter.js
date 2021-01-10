@@ -7,7 +7,7 @@ export default function PageRouter() {
         <HashRouter>
             <Switch>
                 <Route exact path="/" component={JoinPage}/>
-                <Route exact path="/room" component={RoomPage}/>
+                <Route exact path="/room/:my_code/:room_code" component={RoomPage}/>
             </Switch>
         </HashRouter>
     );
