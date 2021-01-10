@@ -19,12 +19,13 @@ class JoinPage extends Component{
             return;
         }
 
-        axios.post('http://18.223.100.182/join')
+        axios.post('http://18.223.100.182/join', {room_code: this.state.roomNameInput, nickname: this.state.nicknameInput})
             .then(response => {
                 let res = response.data;
                 if(res.success){
                     let myCode = res.data.player_code;
-                    
+                    let roomcode = res.data.room_code;
+                    this.props.history.push(`/room/${myCode}/${roomCode}`);
                 }else{
                     console.log(res.msg);
                 }
