@@ -19,7 +19,7 @@ class JoinPage extends Component{
             return;
         }
 
-        axios.post('http://localhost:7900/join')
+        axios.post('http://18.223.100.182/join')
             .then(response => {
                 let res = response.data;
                 if(res.success){
@@ -46,7 +46,7 @@ class JoinPage extends Component{
             return;
         }
 
-        axios.post('http://localhost:7900/createRoom', {room_name: this.state.roomNameInput, creator: this.state.nicknameInput})
+        axios.post('http://18.223.100.182/createRoom', {room_name: this.state.roomNameInput, creator: this.state.nicknameInput})
             .then(response => {
                 let res = response.data;
                 if(res.success){

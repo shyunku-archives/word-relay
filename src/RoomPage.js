@@ -18,7 +18,7 @@ class RoomPage extends Component{
         };
 
 
-        this.socket = socketio(`http://localhost:24991/${params.room_code}`, {transports: ["websocket"]});
+        this.socket = socketio(`http://18.223.100.182:24991/${params.room_code}`, {transports: ["websocket"]});
         
         this.socket.on("connect", () => {
             console.log("connected!");
