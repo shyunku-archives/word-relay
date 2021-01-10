@@ -19,7 +19,7 @@ class JoinPage extends Component{
             return;
         }
 
-        axios.post('http://18.223.100.182/join', {room_code: this.state.roomNameInput, nickname: this.state.nicknameInput})
+        axios.post('http://18.223.100.182/join', {room_code: this.state.roomCodeInput, nickname: this.state.nicknameInput})
             .then(response => {
                 let res = response.data;
                 if(res.success){
@@ -27,6 +27,11 @@ class JoinPage extends Component{
                     let roomCode = res.data.room_code;
                     this.props.history.push(`/room/${myCode}/${roomCode}`);
                 }else{
+                    switch(res.data){
+                        case 1: alert('Parameter error'); break;
+                        case 2: alert('해당 코드에 해당하는 방이 없습니다!'); break;
+                        case 3: alert('같은 닉네임의 사람이 이미 존재합니다!'); break;
+                    }
                     console.log(res.msg);
                 }
             })
