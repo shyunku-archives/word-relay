@@ -15,6 +15,8 @@ class RoomPage extends Component{
             myCode: params.my_code,
             chatInput: "",
             messages: [],
+            targetLetter: 'e',
+            usedWord: []
         };
 
 
@@ -41,8 +43,58 @@ class RoomPage extends Component{
             this.setState({
                 messages: messages
             });
+        });
 
-            console.log(messages);
+        this.socket.on("relay", data => {
+            let messages = this.state.messages;
+
+            if(data.matched === false){
+                messages.push({
+                    sender: {
+                        playerCode: -1,
+                        nickname: "System"
+                    },
+                    content: `No matching meanings with word '${data.word}'`,
+                    time: new Date().getTime()
+                });
+            }else{
+                if(data.available === false){
+                    messages.push({
+                        sender: {
+                            playerCode: -1,
+                            nickname: "System"
+                        },
+                        content: `Word '${data.word}' already used.`,
+                        time: new Date().getTime()
+                    });
+                }
+            }
+
+            this.setState({
+                messages: messages
+            });
+        });
+
+        this.socket.on("relay-broadcast", data => {
+            // this.state.playing[data.sender.playerCode].score += 1;
+            console.log(data);
+            let meanings = data.meanings.map(item => {
+                return item.means.join(", ");
+            }).join(", ");
+            if(meanings.length > 40) meanings = meanings.substr(0, 40) + "...";
+
+            this.state.usedWord.push({
+                word: data.word,
+                meaning: meanings
+            });
+
+            this.state.targetLetter = data.word[data.word.length - 1];
+
+            this.forceUpdate();
+        });
+
+        this.socket.on("joined", data => {
+            
         });
 
         this.socket.on("initialFetch", data => {
@@ -95,7 +147,11 @@ class RoomPage extends Component{
         if(e.which === 13){
             let message = this.state.chatInput;
 
-            this.socket.emit("message", message);
+            if(message[0] === this.state.targetLetter){
+                this.socket.emit("relay", message);
+            }else{
+                this.socket.emit("message", message);
+            }
 
             this.setState({
                 chatInput: "",
@@ -120,7 +176,7 @@ class RoomPage extends Component{
                                     Object.keys(this.state.playing).map(playerCode =>{
                                         let player = this.state.playing[playerCode];
                                         return(
-                                            <div className="player-item">
+                                            <div className="player-item" key={playerCode}>
                                                 <div className="nickname">{player.player.nickname}</div>
                                                 <div className="score">{player.score}</div>
                                             </div>
@@ -138,7 +194,7 @@ class RoomPage extends Component{
                                     Object.keys(this.state.watching).map(playerCode =>{
                                         let player = this.state.watching[playerCode];
                                         return(
-                                            <div className="player-item">
+                                            <div className="player-item" key={playerCode}>
                                                 <div className="nickname">{player.player.nickname}</div>
                                             </div>
                                         );
@@ -149,40 +205,22 @@ class RoomPage extends Component{
                     </div>
                     <div className="game-content">
                         <div className="announce">
-                            <div className="target-letter">g</div>
+                            <div className="target-letter">{this.state.targetLetter}</div>
                             <div>로 시작하는 단어를 입력해주세요.</div>
                         </div>
                         <div className="main">
                             <div className="type-log-wrapper">
                                 <div className="type-log">
-                                    <div className="word-item">
-                                        <div className="word">generate</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
-                                    <div className="word-item">
-                                        <div className="word">generate</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
-                                    <div className="word-item">
-                                        <div className="word">generate</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
-                                    <div className="word-item">
-                                        <div className="word">generate</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
-                                    <div className="word-item">
-                                        <div className="word">enumerate</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
-                                    <div className="word-item">
-                                        <div className="word">egg</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
-                                    <div className="word-item">
-                                        <div className="word">generate</div>
-                                        <div className="meaning">meaning...</div>
-                                    </div>
+                                    {
+                                        this.state.usedWord.map(entry => {
+                                            return (
+                                                <div className="word-item">
+                                                    <div className="word">{entry.word}</div>
+                                                    <div className="meaning">{entry.meaning}</div>
+                                                </div>
+                                            );
+                                        })
+                                    }
                                 </div>
                             </div>
                         </div>
